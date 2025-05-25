@@ -1,0 +1,138 @@
+
+<html>
+<head>
+	<style type="text/css">
+		#loadingBar {
+			position: fixed;
+		  	top: 50%;
+		  	left: 50%;
+		}
+	</style>
+</head>
+  <body style="width:256px;height:256px;overflow:hidden;">
+		<script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+
+		<script type="importmap">
+		    {
+		        "imports": {
+		            "three": "https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.module.js"
+		        }
+		    }
+		</script>
+
+    <script type="module">
+      import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.module.js";
+      import { MTLLoader } from "https://cdn.jsdelivr.net/npm/three@0.147.0/examples/jsm/loaders/MTLLoader.js";
+      import { TrackballControls } from "https://cdn.jsdelivr.net/npm/three@0.147.0/examples/jsm/controls/TrackballControls.js";
+      import { DRACOLoader } from 'https://cdn.jsdelivr.net/npm/three@0.147.0/examples/jsm/loaders/DRACOLoader.js';
+
+    import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.147.0/examples/jsm/controls/OrbitControls.js";
+
+    const urlSearchParams = new URLSearchParams(window.location.search);
+		const params = Object.fromEntries(urlSearchParams.entries());
+
+
+    let NUM_FRAMES = (params.nframes === undefined) ? 1 : 1;
+		let MODEL_PATH = params.sequence;
+		let ALBEDO_FORMAT = '.jpg';
+
+		let camera, scene, renderer, controls;
+		let currFrameIndex = 0;
+		let currTime = Date.now();
+
+		var frameIndexToObject = {};
+
+		init();
+		createFrames().then(animate());
+
+		async function createFrames() {
+			const textureLoader = new THREE.TextureLoader();
+
+			const dracoLoader = new DRACOLoader();
+			dracoLoader.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/libs/draco/');
+			dracoLoader.preload();
+
+			for (let frameIndex = 0; frameIndex < 1; frameIndex++) {
+				dracoLoader.loadAsync(MODEL_PATH).then((obj) => {
+						// var texture = values[0];
+						// var obj = values[1];
+						var mesh = new THREE.Mesh(
+                obj,
+                new THREE.MeshNormalMaterial({
+					normalScale: new THREE.Vector2(0.3, 0.3) // 主要调整这个参数
+				}) // 使用法线材质
+            );
+						mesh.name = 'loaded_mesh';
+						mesh.geometry.computeVertexNormals();
+
+						frameIndexToObject[frameIndex] = mesh;
+
+						var element = document.getElementById('loadingBar');
+						if (element != null) {
+							var percent = Math.floor((Object.keys(frameIndexToObject).length / NUM_FRAMES) * 100);
+							element.textContent = "Loading " + percent + "%";
+						}
+				});
+			}
+		}
+
+
+		function init() {
+			camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight);
+			camera.position.z = -1.5;
+
+			scene = new THREE.Scene();
+			scene.background = new THREE.Color( 0xffffff );
+
+			// const ambientLight = new THREE.AmbientLight( 0x404040, 1.0 );
+			// scene.add( ambientLight );
+
+			scene.add(camera);
+
+			renderer = new THREE.WebGLRenderer();
+			renderer.setPixelRatio( window.devicePixelRatio );
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.body.appendChild( renderer.domElement );
+
+			controls = new OrbitControls( camera, renderer.domElement );
+			controls.rotateSpeed = 1.3;
+			controls.zoomSpeed = 1.2;
+			controls.panSpeed = 1.2;
+			controls.keys = [ 'KeyA', 'KeyS', 'KeyD' ];
+
+			controls.minDistance = 0.2;
+			controls.maxDistance = 10;
+
+			// controls.maxPolarAngle = Math.PI / 2;
+			controls.enableDamping = true;
+			controls.dampingFactor = 0.025;
+
+			window.addEventListener( 'resize', onWindowResize );
+		}
+
+		function onWindowResize() {
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+		}
+
+		function animate() {
+			requestAnimationFrame( animate );
+			controls.update();
+
+			var element = document.getElementById('loadingBar');
+			if (element != null) element.remove();
+
+			let currFrameIndex = 0;
+			currTime = Date.now();
+			scene.remove(scene.getObjectByName('loaded_mesh'));
+			scene.add(frameIndexToObject[currFrameIndex]);
+
+			renderer.render(scene, camera);
+
+		}
+
+    </script>
+    <div id="loadingBar">Loading</div>
+  </body>
+</html>

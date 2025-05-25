@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8" />
+    <title>Sparc3D: Sparse Representation and Construction for High-Resolution 3D Shapes Modeling</title>
+	<link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <meta content="Sparc3D: Sparse Representation and Construction for High-Resolution 3D Shapes Modeling" name="description" />
+    <meta content="summary" name="twitter:card" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <link href="static/css/template.css" rel="stylesheet" type="text/css" />
+    <link href="static/css/my_style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="./static/css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-K88VBDPM');</script>
+    <!-- End Google Tag Manager -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        WebFont.load({
+            google: {
+                families: ["Lato:100,100italic,300,300italic,400,400italic,700,700italic,900,900italic", "Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic", "Ubuntu:300,300italic,400,400italic,500,500italic,700,700italic", "Changa One:400,400italic", "Open Sans:300,300italic,400,400italic,600,600italic,700,700italic,800,800italic", "Varela Round:400", "Bungee Shade:regular", "Roboto:300,regular,500"]
+            }
+        });
+    </script>
+    <script type="text/javascript">
+        ! function (o, c) {
+            var n = c.documentElement,
+                t = " w-mod-";
+            n.className += t + "js", ("ontouchstart" in o || o.DocumentTouch && c instanceof DocumentTouch) && (n.className += t + "touch")
+        }(window, document);
+    </script>
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+    <script type="text/javascript" src="static/js/zoom.js"></script>
+    <script type="text/javascript" src="static/js/video_comparison.js"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    </script>
+
+<!--    </script>-->
+<style type="text/css">
+.w3-col.l2 {
+    width: 20%;
+}
+
+@media (max-width: 1200px) {
+    .w3-col.m4 {
+        width: 33.33333%;
+    }
+}
+
+@media (max-width: 600px) {
+    .w3-col.m4 {
+        width: 50%;
+    }
+}
+
+.vidContainer {
+    padding: 0 8px !important; /* 减小内边距 */
+}
+
+    .meshViewer {
+        height: 200px;
+        width: 200px;
+        border: none;
+        overflow: hidden;
+        display: none;
+    }
+
+    .video {
+        width: 200px;
+        height: 200px;
+        position: relative;
+        top: 0;
+        left: 0;
+    }
+
+    .videoMerge {
+        position: relative;
+        top: 0;
+        left: 0;
+        z-index: 10;
+        width: 100%;
+        display: block;
+        margin: 0 auto;
+        background-size: cover;
+    }
+
+    .viewerToggle {
+        display: block;
+        text-align: center;
+        overflow: hidden;
+        border: none;
+        margin-top: 10px;
+    }
+    
+
+    .viewerToggle:hover {
+        text-decoration: none;
+    }
+
+    #load_more {
+        text-decoration: none;
+    }
+
+    .largeContainer {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        row-gap: 30px;
+    }
+
+    .emptydiv {
+        height: 59px;
+    }
+
+    .div-only-desk {
+    }
+
+    .div-only-mobile {
+    }
+
+    @media screen and (min-width: 1240px) and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
+        .div-only-desk {
+            visibility: visible;
+        }
+
+        .div-only-mobile {
+            visibility: hidden;
+            display: none;
+        }
+    }
+
+    @media screen and (max-width: 1239px) {
+        .div-only-desk {
+            visibility: hidden;
+            display: none;
+        }
+
+        .div-only-mobile {
+            visibility: visible;
+        }
+    }
+
+    @keyframes placeHolderShimmer {
+        0% {
+            background-position: -800px 0
+        }
+        100% {
+            background-position: 800px 0
+        }
+    }
+
+    .animated-background {
+        animation-duration: 2s;
+        animation-fill-mode: forwards;
+        animation-iteration-count: infinite;
+        animation-name: placeHolderShimmer;
+        animation-timing-function: linear;
+        background-color: #f6f7f8;
+        background: linear-gradient(to right, #eeeeee 8%, #bbbbbb 18%, #eeeeee 33%);
+        background-size: 800px 104px;
+        height: 256px;
+        width: 256px;
+        position: relative;
+    }
+
+    .key-icon {  
+        width: 1.2em;
+        height: 1.2em;
+        vertical-align: middle;
+        margin-top: 1.0em;
+    }
+
+</style>
+</head>
+
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K88VBDPM"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <!-- <div id="threejs-container" style="width: 100%; height: 500px;"></div> -->
+    <div class="section hero nerf-_v2">
+        <div class="container-2 nerf_header_v2 w-container">
+            <h1 class="nerf_title_v2"><span style="color: red;">Spa</span>rse <span style="color: red;">R</span>epresentation and <span style="color: red;">C</span>onstruction for High-Resolution <span style="color: red;">3D</span> Shapes Modeling <br /> (<span style="color: red;">Sparc3D</span>) </h1>
+            <!-- <div class="nerf_subheader_v2"></div> -->
+            <div class="nerf_subheader_v2">
+                <div>
+                    <a href="https://lizhihao6.github.io/" target="_blank" class="nerf_authors_v2">Zhihao Li<span
+                            class="text-span_nerf"></span></a><sup> 1,2</sup>,&nbsp;&nbsp;
+                    <a href="https://wyf0912.github.io/" target="_blank" class="nerf_authors_v2">Yufei Wang<span
+                            class="text-span_nerf"></span></a><sup> 2</sup>,&nbsp;&nbsp;
+                    <a href="https://scholar.google.co.jp/citations?user=VRgciTQAAAAJ" target="_blank" class="nerf_authors_v2">Heliang Zheng<sup>‡</sup><span
+                            class="text-span_nerf"></span></a><sup> 2</sup>,&nbsp;&nbsp;
+                    <a href="https://scholar.google.com/citations?user=fGfkWlUAAAAJ" target="_blank" class="nerf_authors_v2">Yihao Luo<sup>†</sup><span
+                            class="text-span_nerf"></span></a><sup> 2,3</sup>,&nbsp;&nbsp;
+                    <a href="https://scholar.google.com/citations?user=ypkClpwAAAAJ" target="_blank" class="nerf_authors_v2">Bihan Wen<sup>†</sup><span
+                            class="text-span_nerf"></span></a><sup> 1</sup>
+                </div>
+                <div>
+                    <h1 class="nerf_affiliation_v2"><sup>1 </sup>Nanyang Technological University</h1>,&nbsp;&nbsp;
+                    <h1 class="nerf_affiliation_v2"><sup>2 </sup>Sensory Universe</h1>,&nbsp;&nbsp;
+                    <h1 class="nerf_affiliation_v2"><sup>3 </sup>Imperial College London</h1>
+                    <br>
+                    <h1 class="nerf_affiliation_v2"><sup>‡ </sup>Project Lead</h1>,&nbsp;&nbsp;
+                    <h1 class="nerf_affiliation_v2"><sup>† </sup>Corresponding Authors</h1>
+                </div>
+
+                <div class="external-link">
+                  <a class="btn" href="https://arxiv.org/abs/2505.14521" role="button" target="_blank">
+                      <i class="ai ai-arxiv"></i> Arxiv </a>
+                  <a class="btn" href="https://github.com/lizhihao6/Sparc3D" role="button" target="_blank" disabled>
+                    <i class="fa-solid fa-chess-knight"></i> Demo (Comming Soon) </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="white_section_nerf w-container" style="display: flex; flex-direction: column; align-items: center;">
+        <div class="grid-container-1">
+            <img src="assets/images/teaser.png">    
+        </div>
+    </div>
+
+    <div data-anchor="slide1" class="section nerf_section">
+        <div class="w-container grey_container" style="display: flex; flex-direction: column; align-items: center;">
+            <h2 class="grey-heading_nerf" style="text-align: center;">Abstract</h2>
+            <p class="paragraph-3 nerf_text nerf_results_text">
+                High-fidelity 3D object synthesis remains significantly more challenging than 2D image generation due to the unstructured nature of mesh data and the cubic complexity of dense volumetric grids. 
+                Existing two-stage pipelines—compressing meshes with a VAE (using either 2D or 3D supervision), followed by latent diffusion sampling—often suffer from severe detail loss caused by inefficient representations and modality mismatches introduced in VAE.
+                We introduce <strong>Sparc3D</strong>, a unified framework that combines a sparse deformable marching cubes representation <strong>Sparcubes</strong> with a novel encoder <strong>Sparconv-VAE</strong>.
+                Sparcubes converts raw meshes into high-resolution (1024<sup>3</sup>) surfaces with arbitrary topology by scattering signed distance and deformation fields onto a sparse cube, allowing differentiable optimization.
+                Sparconv-VAE is the first modality-consistent variational autoencoder built entirely upon sparse convolutional networks, enabling efficient and near-lossless 3D reconstruction suitable for high-resolution generative modeling through latent diffusion.
+                Sparc3D achieves state-of-the-art reconstruction fidelity on challenging inputs, including open surfaces, disconnected components, and intricate geometry.
+                It preserves fine-grained shape details, reduces training and inference cost, and integrates naturally with latent diffusion models for scalable, high-resolution 3D generation.
+                <br>
+                <!-- <img  src="assets/images/overview.png"> -->
+            </p>
+        </div>
+    </div>
+
+
+    <!-- ReconSection -->
+    <div class="w3-content w3-padding" style="max-width:1200px">
+        <!-- ReconSection -->
+        <h2 class="grey-heading_nerf" style="text-align: center;">VAE Reconstruction Results</h2>
+        <p class="myprompt nerf_text">
+        <span style="color: red;">Hold</span>
+        <img src="assets/images/z_button.png" alt="Z" class="key-icon" />
+        and 
+        <span style="color: red;">hover</span>
+        over the video to zoom in.
+        </p>
+        <div id='textToVideos' class="w3-row-padding largeContainer">
+        </div>
+        <a href="#"  id='load_more' onclick="add_videos(); return false;" class="w3-button w3-pale-red w3-block" style="margin-top: 15px;">Load more samples</a>
+        <!-- End page content -->
+    </div>
+    
+
+<script type="text/javascript">
+    vid_button = document.getElementsByClassName("mesh-button");
+    for (var i = 0; i < vid_button.length; i++) {
+        let id = vid_button[i].id;
+        let id_base = id.substring(0, id.length - 7);
+        let button = document.getElementById(id);
+        let canvas = document.getElementById(id_base + "Merge");
+        let model = document.getElementById(id_base + "-model");
+        button.onclick = function () {
+            canvas.style.display = "none";
+            button.style.display = "none";
+            model.style.display = "block";
+        }
+    }
+
+</script>
+<script src="static/js/scripts.js"></script>
+<!-- ...existing code... -->
+<link rel="stylesheet" href="static/css/magnifier_comparison.css">
+<script type="text/javascript" src="static/js/magnifier_comparison.js"></script>
+<!-- ...existing code... -->
+
+    <div class="white_section_nerf w-container" style="display: flex; flex-direction: column; align-items: center;">
+        <h2 class="grey-heading_nerf" style="text-align: center;">Image-to-3D Generation Results (Video)</h2>
+        <!-- <p class="myprompt nerf_text"> Some images are from 
+            <a href="https://www.tripo3d.ai/" target="_blank" class="nerf_authors_v2">Tripo<span
+                class="text-span_nerf"></span></a>,
+            <a href="https://trellis3d.github.io/" target="_blank" class="nerf_authors_v2">Trellis<span
+                class="text-span_nerf"></span></a>,
+            Rodin,
+            Meshy.
+            </p> -->
+        <div class="grid-container-4">
+            <img src="assets/images/image_to_3d/2.png" height="200">
+            <div>
+                <video id="vid2" class="no-zoom" height="200" loop playsinline autoPlay muted 
+                src="assets/videos/image_to_3d/2.mp4"></video>
+            </div>
+            <img src="assets/images/image_to_3d/8.png" height="200">
+            <div>
+                <video id="vid8" class="no-zoom" height="200" loop playsinline autoPlay muted 
+                src="assets/videos/image_to_3d/8.mp4"></video>
+            </div>
+            <img src="assets/images/image_to_3d/13.png" height="200">
+            <div>
+                <video id="vid13" class="no-zoom" height="200" loop playsinline autoPlay muted 
+                src="assets/videos/image_to_3d/13.mp4"></video>
+            </div>
+            <img src="assets/images/image_to_3d/23.png" height="200">
+            <div>
+                <video id="vid23" class="no-zoom" height="200" loop playsinline autoPlay muted 
+                src="assets/videos/image_to_3d/23.mp4"></video>
+            </div>
+            <img src="assets/images/image_to_3d/29.png" height="200">
+            <div>
+                <video id="vid29" class="no-zoom" height="200" loop playsinline autoPlay muted 
+                src="assets/videos/image_to_3d/29.mp4"></video>
+            </div>
+            <img src="assets/images/image_to_3d/32.png" height="200">
+            <div>
+                <video id="vid32" class="no-zoom" height="200" loop playsinline autoPlay muted 
+                src="assets/videos/image_to_3d/32.mp4"></video>
+            </div>
+            <img src="assets/images/image_to_3d/18.png" height="200">
+            <div>
+                <video id="vid18" class="no-zoom" height="200" loop playsinline autoPlay muted 
+                src="assets/videos/image_to_3d/18.mp4"></video>
+            </div>
+            <img src="assets/images/image_to_3d/15.png" height="200">
+            <div>
+                <video id="vid15" class="no-zoom" height="200" loop playsinline autoPlay muted 
+                src="assets/videos/image_to_3d/15.mp4"></video>
+            </div>
+        </div>
+    </div>
+
+    <div class="white_section_nerf w-container" style="display: flex; flex-direction: column; align-items: center;">
+        <h2 class="grey-heading_nerf" style="text-align: center;">Method Overview (Sparcubes)</h2>
+        <div class="grid-container-1">
+            <img src="assets/images/pipeline.png" style="display: block; margin: 0 auto; width: 80%; height: auto;" loading="lazy" alt="Strategy">
+
+            <p style="text-align: center;">
+                Illustration of our Sparcubes reconstruction pipeline for converting a raw mesh into a watertight mesh.
+            </p>
+        </div>
+    </div>
+
+    <div class="white_section_nerf w-container" style="display: flex; flex-direction: column; align-items: center;">
+        <h2 class="grey-heading_nerf" style="text-align: center;">Method Overview (Sparconv-VAE)</h2>
+        <div class="grid-container-1">
+            <img src="assets/images/vae_architecture.png" style="display: block; margin: 0 auto; width: 80%; height: auto;" loading="lazy" alt="Strategy">
+
+            <p> 
+                Our Sparconv-VAE comprises a sequence of sparse convolutional blocks, integrated with a lightweight local attention module adapted from 
+                <a href="https://arxiv.org/abs/2312.10035">Point Transformer V3</a>.
+            </p>
+        </div>
+    </div>
+    
+
+</body>
+<footer>
+    This project page is designed by <a href="https://xianglonghe.github.io/TripoSF/index.html">TripoSF</a>, <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> and <a href="https://make-a-video3d.github.io">Make-A-Video3D</a>.
+</footer>
+
+</html>
