@@ -1,8 +1,5 @@
 <h1 align="center">
-  <span style="color:red">Spa</span>rse  
-  <span style="color:red">R</span>epresentation and  
-  <span style="color:red">C</span>onstruction<br>
-  for High-Resolution 3D Shapes Modeling (Sparc3D)
+  Sparc3D: Sparse Representation and Construction <br/>for High-Resolution 3D Shapes Modeling
 </h1>
 
 <p align="center">
