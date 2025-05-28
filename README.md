@@ -1,19 +1,29 @@
-# Sparc3D  
-**Sparse Representation and Construction for High-Resolution 3D Shapes Modeling**
+<h1 align="center">
+  <span style="color:red">Spa</span>rse  
+  <span style="color:red">R</span>epresentation and  
+  <span style="color:red">C</span>onstruction<br>
+  for High-Resolution 3D Shapes Modeling (Sparc3D)
+</h1>
 
-[![Homepage](https://img.shields.io/badge/Homepage-Website-blue)](https://lizhihao6.github.io/Sparc3D/) [![ArXiv](https://img.shields.io/badge/arXiv-2505.14521-red)](https://arxiv.org/abs/2505.14521) [![Demo (Coming Soon)](https://img.shields.io/badge/Demo%20(Coming%20Soon)-HuggingFace-orange?logo=huggingface)](#)
+<p align="center">
+  <a href="https://arxiv.org/abs/2505.14521">
+    <img src="https://img.shields.io/badge/arXiv-Paper-red?logo=arxiv&logoColor=white" alt="arXiv">
+  </a>
+  <a href="https://lizhihao6.github.io/Sparc3D/">
+    <img src="https://img.shields.io/badge/Project_Page-Website-green?logo=googlechrome&logoColor=white" alt="Homepage">
+  </a>
+  <a href="#">
+    <img src="https://img.shields.io/badge/Demo%20(Coming%20Soon)-HuggingFace-orange?logo=huggingface" alt="Demo (Coming Soon)">
+  </a>
+</p>
 
-## Abstract
+<p align="center">
+  <img src="assets/images/teaser.png" width="100%" alt="Teaser">
+</p>
 
-<div align="center">
-  <img src="assets/images/teaser.png" alt="Sparc3D Teaser" width="600" />
-</div>
 
-> High-fidelity 3D object synthesis remains significantly more challenging than 2D image generation due to the unstructured nature of mesh data and the cubic complexity of dense volumetric grids. Existing two-stage pipelines—compressing meshes with a VAE (using either 2D or 3D supervision), followed by latent diffusion sampling—often suffer from severe detail loss caused by inefficient representations and modality mismatches introduced in VAE.  
->  
 > We introduce **Sparc3D**, a unified framework that combines a sparse deformable marching cubes representation **Sparcubes** with a novel encoder **Sparconv-VAE**. Sparcubes converts raw meshes into high-resolution (1024³) surfaces with arbitrary topology by scattering signed distance and deformation fields onto a sparse cube, allowing differentiable optimization. Sparconv-VAE is the first modality-consistent variational autoencoder built entirely upon sparse convolutional networks, enabling efficient and near-lossless 3D reconstruction suitable for high-resolution generative modeling through latent diffusion.  
->  
-> Sparc3D achieves state-of-the-art reconstruction fidelity on challenging inputs, including open surfaces, disconnected components, and intricate geometry. It preserves fine-grained shape details, reduces training and inference cost, and integrates naturally with latent diffusion models for scalable, high-resolution 3D generation.
+
 
 
 ## Citation
