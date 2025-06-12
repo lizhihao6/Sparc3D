@@ -9,8 +9,8 @@
   <a href="https://lizhihao6.github.io/Sparc3D/">
     <img src="https://img.shields.io/badge/Project_Page-Website-green?logo=googlechrome&logoColor=white" alt="Homepage">
   </a>
-  <a href="#">
-    <img src="https://img.shields.io/badge/Demo%20(Coming%20Soon)-HuggingFace-orange?logo=huggingface" alt="Demo (Coming Soon)">
+  <a href="https://huggingface.co/spaces/ilcve21/Sparc3D">
+    <img src="https://img.shields.io/badge/Demo-HuggingFace-orange?logo=huggingface" alt="Demo">
   </a>
 </p>
 
