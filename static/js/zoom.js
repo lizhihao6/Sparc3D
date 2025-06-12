@@ -1,6 +1,7 @@
 function magnify(imgID, zoom, init_x, init_y) {
     var img = document.getElementById(imgID);
     // 如果元素带有 no-zoom，就不启用放大镜
+    if (!img || !img.classList) return;
     if (img.classList.contains('no-zoom')) return;
 
     var glass, w, h, bw;

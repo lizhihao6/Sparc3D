@@ -94,6 +94,17 @@
         background-size: cover;
     }
 
+    .videoGenMerge {
+        position: relative;
+        top: 0;
+        left: 0;
+        z-index: 10;
+        width: 100%;
+        display: block;
+        margin: 0 auto;
+        background-size: cover;
+    }
+
     .viewerToggle {
         display: block;
         text-align: center;
@@ -219,18 +230,37 @@
                 <div class="external-link">
                   <a class="btn" href="https://arxiv.org/abs/2505.14521" role="button" target="_blank">
                       <i class="ai ai-arxiv"></i> Arxiv </a>
-                  <a class="btn" href="https://github.com/lizhihao6/Sparc3D" role="button" target="_blank" disabled>
-                    <i class="fa-solid fa-chess-knight"></i> Demo (Comming Soon) </a>
+                  <a class="btn" href="https://huggingface.co/spaces/ilcve21/Sparc3D" role="button" target="_blank" disabled>
+                    <i class="fa-solid fa-chess-knight"></i> Demo</a>
+                <a class="btn" href="https://github.com/lizhihao6/Sparc3D" role="button" target="_blank" disabled>
+                      <i class="fa-brands fa-github"></i> Code* </a>
                 </div>
+
+<div style="font-size: 10 px;">
+  *Code may be released upon the approval of Math Magic.
+</div>
                 
             </div>
         </div>
     </div>
-    <div class="white_section_nerf w-container" style="display: flex; flex-direction: column; align-items: center;">
+    <!-- <div class="white_section_nerf w-container" style="display: flex; flex-direction: column; align-items: center;">
         <div class="grid-container-1">
             <img src="assets/images/teaser.png">    
         </div>
-    </div>
+    </div> -->
+<div class="white_section_nerf w-container" style="display: flex; flex-direction: column; align-items: center;">
+  <div class="grid-container-1" style="position: relative; width: 100%; padding-bottom: 56.25%;">
+    <iframe
+      src="https://www.youtube.com/embed/SZx3oePBwuo?si=o6M5_UZoLLkGfKCC"
+      title="YouTube video player"
+      frameborder="0"
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allowfullscreen>
+    </iframe>
+  </div>
+</div>
 
     <div data-anchor="slide1" class="section nerf_section">
         <div class="w-container grey_container" style="display: flex; flex-direction: column; align-items: center;">
@@ -249,6 +279,41 @@
         </div>
     </div>
 
+    <!-- Generation -->
+    <div class="w3-content w3-padding" style="max-width:1200px">
+        <!-- Generation -->
+        <h2 class="grey-heading_nerf" style="text-align: center;">Generation Results</h2>
+        <p class="myprompt nerf_text">
+        <span style="color: red;">Hold</span>
+        <img src="assets/images/z_button.png" alt="Z" class="key-icon" />
+        and 
+        <span style="color: red;">hover</span>
+        over the video to zoom in.
+        </p>
+        <div id='textToVideosGen' class="w3-row-padding largeContainer">
+        </div>
+        <a href="#"  id='load_more_gen' onclick="add_videos_gen(); return false;" class="w3-button w3-pale-red w3-block" style="margin-top: 15px;">Load more samples</a>
+        <!-- End page content -->
+    </div>
+    
+<script type="text/javascript">
+    vid_button = document.getElementsByClassName("mesh-button");
+    for (var i = 0; i < vid_button.length; i++) {
+        let id = vid_button[i].id;
+        let id_base = id.substring(0, id.length - 7);
+        let button = document.getElementById(id);
+        let canvas = document.getElementById(id_base + "Merge");
+        let model = document.getElementById(id_base + "-model");
+        button.onclick = function () {
+            canvas.style.display = "none";
+            button.style.display = "none";
+            model.style.display = "block";
+        }
+    }
+
+</script>
+<script src="static/js/scripts_gen.js"></script>
+
 
     <!-- ReconSection -->
     <div class="w3-content w3-padding" style="max-width:1200px">
@@ -266,7 +331,7 @@
         <a href="#"  id='load_more' onclick="add_videos(); return false;" class="w3-button w3-pale-red w3-block" style="margin-top: 15px;">Load more samples</a>
         <!-- End page content -->
     </div>
-    
+
 
 <script type="text/javascript">
     vid_button = document.getElementsByClassName("mesh-button");
@@ -304,42 +369,42 @@
             <img src="assets/images/image_to_3d/2.png" height="200">
             <div>
                 <video id="vid2" class="no-zoom" height="200" loop playsinline autoPlay muted 
-                src="assets/videos/image_to_3d/2.mp4"></video>
+                src="assets/videos/vae/image_to_3d/2.mp4"></video>
             </div>
             <img src="assets/images/image_to_3d/8.png" height="200">
             <div>
                 <video id="vid8" class="no-zoom" height="200" loop playsinline autoPlay muted 
-                src="assets/videos/image_to_3d/8.mp4"></video>
+                src="assets/videos/vae/image_to_3d/8.mp4"></video>
             </div>
             <img src="assets/images/image_to_3d/13.png" height="200">
             <div>
                 <video id="vid13" class="no-zoom" height="200" loop playsinline autoPlay muted 
-                src="assets/videos/image_to_3d/13.mp4"></video>
+                src="assets/videos/vae/image_to_3d/13.mp4"></video>
             </div>
             <img src="assets/images/image_to_3d/23.png" height="200">
             <div>
                 <video id="vid23" class="no-zoom" height="200" loop playsinline autoPlay muted 
-                src="assets/videos/image_to_3d/23.mp4"></video>
+                src="assets/videos/vae/image_to_3d/23.mp4"></video>
             </div>
             <img src="assets/images/image_to_3d/29.png" height="200">
             <div>
                 <video id="vid29" class="no-zoom" height="200" loop playsinline autoPlay muted 
-                src="assets/videos/image_to_3d/29.mp4"></video>
+                src="assets/videos/vae/image_to_3d/29.mp4"></video>
             </div>
             <img src="assets/images/image_to_3d/32.png" height="200">
             <div>
                 <video id="vid32" class="no-zoom" height="200" loop playsinline autoPlay muted 
-                src="assets/videos/image_to_3d/32.mp4"></video>
+                src="assets/videos/vae/image_to_3d/32.mp4"></video>
             </div>
             <img src="assets/images/image_to_3d/18.png" height="200">
             <div>
                 <video id="vid18" class="no-zoom" height="200" loop playsinline autoPlay muted 
-                src="assets/videos/image_to_3d/18.mp4"></video>
+                src="assets/videos/vae/image_to_3d/18.mp4"></video>
             </div>
             <img src="assets/images/image_to_3d/15.png" height="200">
             <div>
                 <video id="vid15" class="no-zoom" height="200" loop playsinline autoPlay muted 
-                src="assets/videos/image_to_3d/15.mp4"></video>
+                src="assets/videos/vae/image_to_3d/15.mp4"></video>
             </div>
         </div>
     </div>

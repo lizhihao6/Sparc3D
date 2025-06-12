@@ -90,27 +90,35 @@ class MagnifierComparison {
   hasCompleteObjectGroup(container) {
     const video = container.querySelector('video');
     if (!video) return false;
+    const list = container.closest('#textToVideosGen')
+                ? videosAttributesGen
+                : videosAttributes;
+    console.log(`List of attributes`, list);
     const baseSrc = video.src;
     return this.methods.every(method => {
       const url = baseSrc.replace(/\/(gt|ours_1024|ours_512|dora|trellis)\//, `/${method}/`);
-      return this.videoExists(url);
+      return this.videoExists(url, list);
     });
   }
 
-  videoExists(src) {
-    return videosAttributes.some(attr => src.endsWith(attr.src));
+  videoExists(src, list) {
+    return list.some(attr => src.endsWith(attr.src));
   }
 
   getObjectGroup(container) {
     const primary = container.querySelector('video');
     this.activePrimary = primary;
     const baseSrc = primary.src;
+    const isGen = !!container.closest('#textToVideosGen');
     const group = {};
     this.methods.forEach(method => {
       const url = baseSrc.replace(/\/(gt|ours_1024|ours_512|dora|trellis)\//, `/${method}/`);
       const vid = Array.from(document.querySelectorAll('video')).find(v => v.src === url);
       if (vid) {
-        const canvas = vid.parentElement.querySelector('.videoMerge');
+        // const canvas = vid.parentElement.querySelector('.videoMerge');
+        const cls = isGen ? '.videoGenMerge' : '.videoMerge';
+        const canvas = vid.parentElement.querySelector(cls);
+        console.log(`vid parentElement`, vid.parentElement);
         vid.parentElement.style.position = 'relative';
         Object.assign(canvas.style, {
           position: 'absolute',
@@ -126,6 +134,7 @@ class MagnifierComparison {
   }
 
   activateMagnifier(container, event) {
+    console.log(`Activating magnifier for container`, container);
     this.isActive = true;
     this.currentObjectGroup = this.getObjectGroup(container);
     // 同步并暂停所有
