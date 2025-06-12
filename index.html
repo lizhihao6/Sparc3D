@@ -236,9 +236,9 @@
                       <i class="fa-brands fa-github"></i> Code* </a>
                 </div>
 
-<div style="font-size: 10 px;">
-  *Code may be released upon the approval of Math Magic.
-</div>
+                <div style="font-size: 10px;">
+                    *Code may be released upon the approval of Math Magic.
+                </div>
                 
             </div>
         </div>
@@ -278,41 +278,6 @@
             </p>
         </div>
     </div>
-
-    <!-- Generation -->
-    <div class="w3-content w3-padding" style="max-width:1200px">
-        <!-- Generation -->
-        <h2 class="grey-heading_nerf" style="text-align: center;">Generation Results</h2>
-        <p class="myprompt nerf_text">
-        <span style="color: red;">Hold</span>
-        <img src="assets/images/z_button.png" alt="Z" class="key-icon" />
-        and 
-        <span style="color: red;">hover</span>
-        over the video to zoom in.
-        </p>
-        <div id='textToVideosGen' class="w3-row-padding largeContainer">
-        </div>
-        <a href="#"  id='load_more_gen' onclick="add_videos_gen(); return false;" class="w3-button w3-pale-red w3-block" style="margin-top: 15px;">Load more samples</a>
-        <!-- End page content -->
-    </div>
-    
-<script type="text/javascript">
-    vid_button = document.getElementsByClassName("mesh-button");
-    for (var i = 0; i < vid_button.length; i++) {
-        let id = vid_button[i].id;
-        let id_base = id.substring(0, id.length - 7);
-        let button = document.getElementById(id);
-        let canvas = document.getElementById(id_base + "Merge");
-        let model = document.getElementById(id_base + "-model");
-        button.onclick = function () {
-            canvas.style.display = "none";
-            button.style.display = "none";
-            model.style.display = "block";
-        }
-    }
-
-</script>
-<script src="static/js/scripts_gen.js"></script>
 
 
     <!-- ReconSection -->
